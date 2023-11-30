@@ -6,8 +6,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { LoadingButton } from '@mui/lab';
-
+import { LoadingButton } from "@mui/lab";
 
 import { useState } from "react";
 import axios from "axios";
@@ -19,6 +18,7 @@ export default function Form() {
     account: "",
     password: "",
   });
+
   const [userData, setUserData] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -31,16 +31,15 @@ export default function Form() {
   };
 
   const handdleClick = async () => {
-    setLoading(true)
-
+    setLoading(true);
     try {
       const response = await axios.get(`${url}/login`);
       setUserData(response.data);
       console.log(userData);
     } catch (error) {
       console.error("An error ocurred during the login process: ", error);
-    } finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -85,7 +84,14 @@ export default function Form() {
               variant="contained"
               loading={loading}
               onClick={handdleClick}
-              sx={{ backgroundColor: "#6400FF"}}
+              sx={{
+                backgroundColor: "#6400FF",
+                transition: 'transform 0.3s ease',
+                "&:hover": {
+                  backgroundColor: "#6400FF",
+                  transform: 'scale(1.05)'
+                },
+              }}
             >
               Entrar
             </LoadingButton>
