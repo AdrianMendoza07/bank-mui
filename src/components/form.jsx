@@ -33,7 +33,7 @@ export default function Form() {
   const handdleClick = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${url}/login`);
+      const response = await axios.post(`${url}/login`, formData);
       setUserData(response.data);
       console.log(userData);
     } catch (error) {
