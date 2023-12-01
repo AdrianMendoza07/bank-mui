@@ -1,7 +1,9 @@
 import {
+  Alert,
   Button,
   Card,
   Container,
+  Snackbar,
   Stack,
   TextField,
   Typography,
@@ -10,17 +12,23 @@ import { LoadingButton } from "@mui/lab";
 
 import { useState } from "react";
 import axios from "axios";
+import { useData } from "./dataContext";
 
 const url = "https://bank.jedidiazfagundez.site/api";
 
 export default function Form() {
+
+  const { setUserData, setUserToken } = useData();
+
+
   const [formData, setFormData] = useState({
     account: "",
     password: "",
   });
 
-  const [userData, setUserData] = useState();
   const [loading, setLoading] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
   const handdleInputChange = (e) => {
     const { name, value } = e.target;
@@ -28,16 +36,23 @@ export default function Form() {
       ...prevData,
       [name]: value,
     }));
-  };
+  }; 
 
   const handdleClick = async () => {
     setLoading(true);
     try {
       const response = await axios.post(`${url}/login`, formData);
-      setUserData(response.data);
-      console.log(userData);
+      setUserData(response.data.user);
+      setUserToken(response.data.token)
     } catch (error) {
-      console.error("An error ocurred during the login process: ", error);
+      console.error(
+        "Ha ocurrido un error en el proceso de ingreso:",
+        error.response.data.msg
+      );
+      setAlertMessage(
+        `Ha ocurrido un error en el proceso de ingreso:${error.response.data.msg}`
+      );
+      setAlertOpen(true);
     } finally {
       setLoading(false);
     }
@@ -54,10 +69,10 @@ export default function Form() {
         }}
       >
         <Card sx={{ padding: 5, width: 300, textAlign: "center" }}>
-          <Typography variant="h5" mb={2}>
+          <Typography variant="h5" mb={2} fontFamily='roboto'>
             Entra a tu Nequi
           </Typography>
-          <Typography variant="subtittle1">
+          <Typography variant="subtittle1" fontFamily='roboto'>
             Ingresa tu cuenta y contraseña
           </Typography>
           <Stack spacing={2} mt={3}>
@@ -84,12 +99,13 @@ export default function Form() {
               variant="contained"
               loading={loading}
               onClick={handdleClick}
+              to="/home"
               sx={{
                 backgroundColor: "#6400FF",
-                transition: 'transform 0.3s ease',
+                transition: "transform 0.3s ease",
                 "&:hover": {
                   backgroundColor: "#6400FF",
-                  transform: 'scale(1.05)'
+                  transform: "scale(1.05)",
                 },
               }}
             >
@@ -98,6 +114,15 @@ export default function Form() {
           </Stack>
         </Card>
       </Container>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity="error">
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 }
