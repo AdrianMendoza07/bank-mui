@@ -2,7 +2,10 @@ import { Card, IconButton, Stack, Typography } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CopyToClipboard from "react-copy-to-clipboard";
 
-export default function UserID() {
+export default function UserID({info}) {
+
+  const {userData} = info
+
   return (
     <>
       <Card
@@ -21,7 +24,7 @@ export default function UserID() {
         >
           <Stack>
             <Typography variant="h6" color="white" fontFamily='roboto'>
-              No. 014
+              No. {userData.account}
             </Typography>
           </Stack>
           <Stack>

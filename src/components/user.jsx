@@ -7,10 +7,10 @@ import '@fontsource/roboto/700.css';
 
 
 
-export default function User() {
+export default function User({info}) {
 
-    const [username, setUsername] = useState()
-
+    const { userData } = info
+    console.log(userData)
 
     return(
         
@@ -24,7 +24,7 @@ export default function User() {
                         <Typography variant="subtittle1" color='black' fontFamily='roboto' fontWeight={300}>Bienvenid@ de vuelta,</Typography>
                     </Stack>
                     <Stack>
-                        <Typography variant="h6" color='black' fontFamily='roboto' fontWeight={500}>notFound</Typography>
+                        <Typography variant="h6" color='black' fontFamily='roboto' fontWeight={500}>{userData.name}</Typography>
                     </Stack>
                 </Stack>
             </Stack>

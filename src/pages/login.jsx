@@ -2,7 +2,8 @@ import Form from "../components/form";
 import Appbar from "../components/appbar";
 import { Box, Container } from "@mui/material";
 
-export default function Login() {
+export default function Login({info}) {
+
   return (
     <>
       <Box
@@ -16,7 +17,7 @@ export default function Login() {
       >
         <Container>
           <Appbar />
-          <Form />
+          <Form info={info}/>
         </Container>
       </Box>
     </>

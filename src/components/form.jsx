@@ -13,13 +13,14 @@ import { LoadingButton } from "@mui/lab";
 import { useState } from "react";
 import axios from "axios";
 import { useData } from "./dataContext";
-
+import { useNavigate } from 'react-router-dom'; 
+ 
 const url = "https://bank.jedidiazfagundez.site/api";
 
-export default function Form() {
+export default function Form({info}) {
 
-  const { setUserData, setUserToken } = useData();
-
+  const navigate = useNavigate()
+  const { setUserData, setUserToken, userData, userToken } = info
 
   const [formData, setFormData] = useState({
     account: "",
@@ -44,13 +45,14 @@ export default function Form() {
       const response = await axios.post(`${url}/login`, formData);
       setUserData(response.data.user);
       setUserToken(response.data.token)
+      navigate('/home')
     } catch (error) {
       console.error(
         "Ha ocurrido un error en el proceso de ingreso:",
         error.response.data.msg
       );
       setAlertMessage(
-        `Ha ocurrido un error en el proceso de ingreso:${error.response.data.msg}`
+        `Ha ocurrido un error en el proceso de ingreso: ${error.response.data.msg}`
       );
       setAlertOpen(true);
     } finally {

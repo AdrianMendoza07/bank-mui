@@ -2,19 +2,17 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/home";
 import Login from "./pages/login";
-import { DataProvider } from "./components/dataContext";
+import { DataContext, DataProvider } from "./components/dataContext";
 
-function App() {
+function App({info}) {
   return (
     <>
-      <DataProvider>
-        <Router>
-          <Routes>
-            <Route path="/login" Component={Login} />
-            <Route path="/home" Component={Home} />
-          </Routes>
-        </Router>
-      </DataProvider>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login info={info}/>} />
+          <Route path="/home" element={<Home info={info} />} />
+        </Routes>
+      </Router>
     </>
   );
 }
